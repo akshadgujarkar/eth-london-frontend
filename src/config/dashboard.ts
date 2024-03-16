@@ -1,14 +1,14 @@
-import { DashboardConfig } from "~/types"
+import { DashboardConfig } from "~/types";
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
-      title: "List",
-      href: "/dashboard/lister",
+      title: "Force Inclusion",
+      href: "/force-inclusion",
     },
     {
-      title: "Bid",
-      href: "/dashboard/bidder",
+      title: "Monitor",
+      href: "/monitor",
     },
   ],
   sidebarNav: [
@@ -29,53 +29,4 @@ export const dashboardConfig: DashboardConfig = {
       icon: "package",
     },
   ],
-  sidebarNavBidder: [
-    {
-      title: "Dashboard",
-      href: "/dashboard/bidder",
-      icon: "home",
-    },
-    {
-      title: "My Bids",
-      href: "/dashboard/bidder/bids",
-      icon: "users",
-    },
-    {
-      title: "All Bids",
-      href: "/dashboard/bidder/all-bids",
-      icon: "package",
-    },
-  ],
-}
-
-// {
-//   title: "All Contracts",
-//   href: "/dashboard/lister",
-//   icon: "dashboard",
-// },
-
-// {
-//   title: "Invoices",
-//   href: "/dashboard/invoices",
-//   icon: "billing",
-//   disabled: true,
-// },
-// {
-//   title: "Reports",
-//   href: "/dashboard/reports",
-//   icon: "post",
-//   disabled: true,
-// },
-
-// {
-//   title: "Profile",
-//   href: "/dashboard/profile",
-//   icon: "settings",
-//   disabled: true,
-// },
-// {
-//   title: "Upgrade to Plus",
-//   href: "/dashboard/billing",
-//   icon: "settings",
-//   disabled: true,
-// },
+};

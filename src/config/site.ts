@@ -1,7 +1,7 @@
 import { SiteConfig } from "~/types";
 
 export const siteConfig: SiteConfig = {
-  name: "EthLondon",
+  name: "ETHLondon",
   description: "Force Inclusion tool",
   url: "",
   ogImage: "",
