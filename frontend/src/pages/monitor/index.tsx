@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
 import { RecentSales } from "@/components/monitor/recent-sales";
 import { Overview } from "@/components/monitor/overview";
+import DashboardLayout from "@/components/layouts/dashboard-layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function Monitor() {
       <Head>
         <title>Arbitrum & Orbit Monitor</title>
       </Head>
-      <MainLayout>
+      <DashboardLayout loading={false}>
         <div>
           <>
             <div className="hidden flex-col md:flex">
@@ -182,7 +183,7 @@ export default function Monitor() {
             </div>
           </>
         </div>
-      </MainLayout>
+      </DashboardLayout>
     </>
   );
 }

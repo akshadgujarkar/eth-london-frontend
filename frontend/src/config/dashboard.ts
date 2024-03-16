@@ -1,6 +1,6 @@
 import { DashboardConfig } from "~/types";
 
-export const dashboardConfig: DashboardConfig = {
+export const monitorConfig: DashboardConfig = {
   mainNav: [
     {
       title: "Force Inclusion",
@@ -13,20 +13,19 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
-      title: "Dashboard",
-      href: "/dashboard/lister/stats",
+      title: "Overview",
+      href: "/monitor",
       icon: "home",
     },
-
     {
-      title: "My Contracts",
-      href: "/dashboard/lister",
+      title: "Transactions",
+      href: "/monitor/transactions",
       icon: "users",
     },
     {
-      title: "Create Contract",
-      href: "/dashboard/lister/contract/add",
-      icon: "package",
+      title: "Alerts",
+      href: "/monitor/alerts",
+      icon: "users",
     },
   ],
 };
