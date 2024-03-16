@@ -1,30 +1,84 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import MainLayout from "@/components/layouts/main-layout";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
-import { RecentSales } from "@/components/monitor/recent-sales";
-import { Overview } from "@/components/monitor/overview";
 import DashboardLayout from "@/components/layouts/dashboard-layout";
-
+import { DashboardShell } from "@/components/shell";
+import { DashboardHeader } from "@/components/header";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Monitor() {
+  const txns: {
+    hash: string;
+    value: string;
+    blockNumber: number;
+  }[] = [
+    {
+      hash: "0x1234",
+      value: "0.01",
+      blockNumber: 1234,
+    },
+  ];
+
   return (
     <>
       <Head>
-        <title>Arbitrum & Orbit Monitor</title>
+        <title>Your Transactions</title>
       </Head>
       <DashboardLayout loading={false}>
-        <h1>Transactions</h1>
+        <DashboardShell>
+          <DashboardHeader
+            heading="Your Transactions"
+            text="View your transactions and set custom email alerts"
+          >
+            <Link href="#">
+              <Button variant="outline">
+                <Icons.add className="mr-2 h-4 w-4" />
+                Create Contract
+              </Button>
+            </Link>
+          </DashboardHeader>
+
+          <Table>
+            <TableCaption>Your email alerts</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>#</TableHead>
+                <TableHead>Block Number</TableHead>
+                <TableHead>Value</TableHead>
+
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {txns.map(({ hash, blockNumber, value }) => (
+                <TableRow key={hash}>
+                  <TableCell className="font-medium">{hash}</TableCell>
+                  <TableCell>{blockNumber}</TableCell>
+                  <TableCell>{value}</TableCell>
+                  <TableCell className="text-right">
+                    <Link href={"#"} className="mr-2">
+                      <Button className="rounded-full">
+                        <Icons.edit className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </DashboardShell>
       </DashboardLayout>
     </>
   );

@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
-import MainLayout from "@/components/layouts/main-layout";
 import {
   Card,
   CardContent,
