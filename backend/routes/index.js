@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { CronJob } = require("cron");
+const { sendEmail } = require("../helpers/mail");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -12,9 +13,17 @@ router.post("/schedule", function (req, res, next) {
   var runCount = 0;
 
   const job = new CronJob(`*/${duration} * * * * *`, () => {
-    if (runCount === 2) job.stop();
+    // Stop the job after running once
+    if (runCount === 1) job.stop();
 
     console.log(
+      `${
+        runCount + 1
+      }. Running API for transaction ID: ${transactionId} every ${duration} seconds`
+    );
+
+    sendEmail(
+      process.env.EMAIL,
       `${
         runCount + 1
       }. Running API for transaction ID: ${transactionId} every ${duration} seconds`
