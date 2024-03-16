@@ -40,6 +40,7 @@ import {
   FileImage,
   ArrowLeft,
   type XIcon as LucideIcon,
+  CalendarIcon,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
