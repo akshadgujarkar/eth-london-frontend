@@ -11,7 +11,11 @@ export default function Home() {
         <title>Force Inclusion</title>
       </Head>
       <MainLayout>
-        <h1>Hi</h1>
+        <section className="p-4">
+          <div className="bg-[#8594B3] bg-[url('/images/bg.png')] h-[80vh] rounded-lg p-8">
+            Meow
+          </div>
+        </section>
       </MainLayout>
     </>
   );
