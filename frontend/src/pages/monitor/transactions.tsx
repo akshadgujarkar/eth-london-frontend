@@ -40,6 +40,9 @@ export default function Monitor() {
   const emailRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
   const [transactions, setTransactions] = useState<ArbiscanTxn[]>([]);
+  const [activeTxn, setActiveTxn] = useState(
+    "0xb840b43d46990a4eebc7b46d5df7b1fa578e4dab3a99601e9759bce7537b811e"
+  );
 
   async function onClick() {
     const email = emailRef.current?.value;
@@ -55,7 +58,8 @@ export default function Monitor() {
 
       //   TODO: Fix endpoint url
       const res = await baseUrl.post("/schedule", {
-        transactionId: "0x1234",
+        transactionId:
+          "0xb840b43d46990a4eebc7b46d5df7b1fa578e4dab3a99601e9759bce7537b811e",
         duration: time,
         email: email,
       });
@@ -144,7 +148,12 @@ export default function Monitor() {
                         }}
                       >
                         <Button className="rounded-full">
-                          <Icons.edit className="h-4 w-4" />
+                          <Icons.edit
+                            className="h-4 w-4"
+                            onClick={(e) => {
+                              setActiveTxn(hash);
+                            }}
+                          />
                         </Button>
                       </DialogTrigger>
                     </TableCell>

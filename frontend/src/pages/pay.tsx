@@ -34,6 +34,8 @@ export default function ForceInclusion() {
 
   function handleExecute() {
     console.log(data);
+
+    const gasAmount = (data.payableValue * data.gas) / 100;
   }
 
   return (
