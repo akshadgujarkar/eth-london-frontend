@@ -16,12 +16,11 @@ import {SequencerInbox__factory} from "@arbitrum/sdk/dist/lib/abi/factories/Sequ
 /**
  * Set up: instantiate L1 / L2 wallets connected to providers
  */
-const walletPrivateKey = "b6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659"
+const walletPrivateKey: string = process.env.DEVNET_PRIVKEY!
 
-// const l1Provider = new providers.JsonRpcProvider("https://sepolia.infura.io/v3/ed98fbfcd55f46489f27a07dcdbeb869")
-// const l2Provider = new providers.JsonRpcProvider("https://arbitrum-sepolia.infura.io/v3/ed98fbfcd55f46489f27a07dcdbeb869")
-const l1Provider = new providers.JsonRpcProvider("http://127.0.0.1:8545")
-const l2Provider = new providers.JsonRpcProvider("http://127.0.0.1:8547")
+const l1Provider = new providers.JsonRpcProvider(process.env.L1RPC)
+const l2Provider = new providers.JsonRpcProvider(process.env.L2RPC)
+
 
 const l1Wallet = new Wallet(walletPrivateKey, l1Provider)
 const l2Wallet = new Wallet(walletPrivateKey, l2Provider)
