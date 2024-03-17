@@ -1,11 +1,29 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import {
+  ThirdwebProvider,
+  metamaskWallet,
+  coinbaseWallet,
+  walletConnect,
+} from "@thirdweb-dev/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system">
-      <Component {...pageProps} />
+      <ThirdwebProvider
+        activeChain="arbitrum-sepolia"
+        clientId={process.env.THIRD_WEB_CLIENT_ID}
+        supportedWallets={[
+          metamaskWallet({
+            recommended: true,
+          }),
+          coinbaseWallet(),
+          walletConnect(),
+        ]}
+      >
+        <Component {...pageProps} />
+      </ThirdwebProvider>
     </ThemeProvider>
   );
 }

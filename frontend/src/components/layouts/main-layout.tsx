@@ -2,74 +2,44 @@ import React from "react";
 
 import { marketingConfig } from "@/config/marketing";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import { MainNav } from "@/components/main-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { useRouter } from "next/router";
-import { Avatar } from "@/components/ui/avatar";
-
-import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
-import WalletConnect from "@walletconnect/web3-provider";
-import Web3Modal, { Modal } from "web3modal";
-import { ethers } from "ethers";
 import { Button } from "@/components/ui/button";
-import { Web3Provider } from "@coinbase/wallet-sdk/dist/provider/Web3Provider";
-import { log } from "console";
 
-export const providerOptions = {
-  coinbasewallet: {
-    package: CoinbaseWalletSDK,
-    options: {
-      appName: "Web 3 Modal Demo",
-    },
-  },
-  walletconnect: {
-    package: WalletConnect,
-    options: {},
-  },
-};
+import { useConnect, useAddress, defaultWallets } from "@thirdweb-dev/react";
 
 const MainLayout: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const router = useRouter();
+  const connect = useConnect();
+  const address = useAddress();
+
   const [color, setcolor] = useState(false);
 
-  const [web3Modal, setWeb3Modal] = useState<Web3Modal>();
-  const [provider, setProvider] = useState<Web3Provider>();
-  const [library, setLibrary] = useState();
+  async function handleConnect() {
+    try {
+      const wallet = await connect(defaultWallets[0], {});
+
+      console.log("connected to", wallet);
+    } catch (e) {
+      console.error("failed to connect", e);
+    }
+  }
 
   const changeNavBg = () => {
     window.scrollY >= 90 ? setcolor(true) : setcolor(false);
   };
 
   useEffect(() => {
-    const modal = new Web3Modal({
-      providerOptions,
-    });
-
-    setWeb3Modal(modal);
-
     window.addEventListener("scroll", changeNavBg);
 
     return () => {
       window.removeEventListener("scroll", changeNavBg);
     };
   }, []);
-
-  const connectWallet = async () => {
-    try {
-      if (!web3Modal) return;
-
-      const provider = await web3Modal?.connect();
-      const library = new ethers.providers.Web3Provider(provider);
-
-      setProvider(provider);
-      setLibrary(library);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -82,7 +52,9 @@ const MainLayout: React.FC<{
           <MainNav items={marketingConfig.mainNav} />
 
           <nav>
-            <Button onClick={connectWallet}>Connect Wallet</Button>
+            <Button onClick={handleConnect} className="max-w-32">
+              {address ? `${address.slice(0, 10)}...` : "Connect Wallet"}
+            </Button>
           </nav>
         </div>
       </header>
