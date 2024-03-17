@@ -43,10 +43,10 @@ export default function ForceInclusion() {
 
     const obj: any = {
       withdraw: {
-        value: data.payableValue,
+        value: data.payableValue.toString(),
       },
       deposit: {
-        amount: data.payableValue,
+        amount: data.payableValue.toString(),
       },
     };
 
