@@ -21,7 +21,11 @@ export function RecentSales({ transactions }: { transactions: ArbiscanTxn[] }) {
                 {formatDate(parseInt(txn.timeStamp), "dd/MM/yyyy")}
               </p>
             </div>
-            <div className="ml-auto font-medium mt-0 mb-auto">{txn.value}</div>
+            <div className="ml-auto font-medium mt-0 mb-auto">
+              {txn.value.length > 5
+                ? `${txn.value.slice(0, 5)}...`
+                : txn.value.slice(0, 5)}
+            </div>
           </div>
         );
       })}

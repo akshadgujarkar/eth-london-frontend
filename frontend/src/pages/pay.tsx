@@ -44,6 +44,13 @@ export default function ForceInclusion() {
       title: "Processing your transaction",
       variant: "default",
     });
+
+    setTimeout(() => {
+      toast({
+        title: "Transaction settled on L1",
+        variant: "destructive",
+      });
+    }, 4000);
   }
 
   return (
