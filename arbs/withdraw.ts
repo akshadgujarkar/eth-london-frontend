@@ -1,4 +1,4 @@
-const { JsonRpcProvider, Wallet, ethers } = require("ethers");
+const { providers, Wallet, ethers } = require("ethers");
 
 import {
   getL2Network,
@@ -18,8 +18,8 @@ import {
 
 const walletPrivateKey = process.env.DEVNET_PRIVKEY
 
-const l1Provider = new JsonRpcProvider(process.env.L1RPC)
-const l2Provider = new JsonRpcProvider(process.env.L2RPC)
+const l1Provider = new providers.JsonRpcProvider(process.env.L1RPC)
+const l2Provider = new providers.JsonRpcProvider(process.env.L2RPC)
 
 const l1Wallet = new Wallet(walletPrivateKey, l1Provider)
 const l2Wallet = new Wallet(walletPrivateKey, l2Provider)

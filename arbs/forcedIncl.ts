@@ -88,48 +88,25 @@ const main = async () => {
 
   const { l1Signer, l2Network, sequencerInbox, bridge } = await setup() 
 
-  console.log(await l1Signer.getAddress())
-
   const inboxTools = new InboxTools(l1Signer, l2Network)
+  console.log("===")
 
-  const transactionl2Request = {
-    data: "7ba226e616d",
-    to: "0x14dc79964da2c08b23698b3d3cc7ca32193d9955",
-    value: BigNumber.from(0),
-  }
-
-
-  const l2SignedTx = await inboxTools.signL2Tx(transactionl2Request, l2Wallet)
-  const l2Txhash = utils.parseTransaction(l2SignedTx).hash
-
-  const l1Tx = await inboxTools.sendL2SignedTx(l2SignedTx)
-  const inboxRec = await l1Tx!.wait()
-
-//   const forceInclusionTx = await inboxTools.forceInclude()
-  
-  console.log(`Greeting txn confirmed on L1! 🙌 ${inboxRec.transactionHash}`)
-  console.log(
-    `Now we need to wait tx: ${l2Txhash} to be included on l2 (may take 15 minutes) ....... `
+  const l2Tx = await submitL2Tx(
+    {
+      to: await l1Signer.getAddress(),
+      value: BigNumber.from(0),
+      gasLimit: BigNumber.from(100000),
+      gasPriceBid: BigNumber.from(21000000000),
+      nonce: 0,
+    },
+    l2Network,
+    l1Signer
   )
+  await l2Tx.wait()
+  // const forceInclusionTx = await inboxTools.forceInclude()
+  // await forceInclusionTx!.wait()
+  console.log("===")
 
-  const l2TxReceipt = await l2Provider.waitForTransaction(l2Txhash!)
-  
-  const status = l2TxReceipt.status!;
-  
-  console.log(status)
-
-//   const block = await l1Signer.provider.getBlock('latest')
-//   await mineBlocks(66000, block.timestamp)
-
-  const forceInclusionTx = await inboxTools.forceInclude()
-
-//   expect(forceInclusionTx, 'Null force inclusion').to.not.be.null
-//   await forceInclusionTx!.wait()
-
-  // const messagesReadAfter = await sequencerInbox.totalDelayedMessagesRead()
-  // console.log(messagesReadAfter)
-
-  
 }
 
 main()
