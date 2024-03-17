@@ -14,7 +14,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { baseUrl, cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -29,28 +29,51 @@ export default function ForceInclusion() {
     destination: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { toast } = useToast();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setData({ ...data, [e.target.name]: e.target.value });
   }
 
-  function handleExecute() {
+  async function handleExecute() {
     console.log(data);
-
     const gasAmount = (data.payableValue * data.gas) / 100;
+
+    const obj: any = {
+      withdraw: {
+        value: data.payableValue,
+      },
+      deposit: {
+        amount: data.payableValue,
+      },
+    };
 
     toast({
       title: "Processing your transaction",
       variant: "default",
     });
 
-    setTimeout(() => {
+    setIsLoading(true);
+
+    try {
+      const res = await baseUrl.post(`/${data.method}`, obj[data.method]);
+
       toast({
-        title: "Transaction settled on L1",
+        title: res.data,
         variant: "destructive",
       });
-    }, 4000);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // setTimeout(() => {
+    //   toast({
+    //     title: "Transaction settled on L1",
+    //     variant: "destructive",
+    //   });
+    // }, 4000);
   }
 
   return (
@@ -83,9 +106,7 @@ export default function ForceInclusion() {
                       <SelectItem value="sendTxToL1">
                         Force Inclusion
                       </SelectItem>
-                      <SelectItem value="withdrawEth">
-                        Withdraw Funds
-                      </SelectItem>
+                      <SelectItem value="withdraw">Withdraw Funds</SelectItem>
                       <SelectItem value="deposit">Deposit Funds</SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -132,7 +153,9 @@ export default function ForceInclusion() {
                 />
               </div>
 
-              <Button onClick={handleExecute}>Execute</Button>
+              <Button onClick={handleExecute} disabled={isLoading}>
+                Execute
+              </Button>
             </div>
           </div>
         </section>
