@@ -13,10 +13,31 @@ import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
 import { RecentSales } from "@/components/monitor/recent-sales";
 import { Overview } from "@/components/monitor/overview";
 import DashboardLayout from "@/components/layouts/dashboard-layout";
+import { useEffect, useState } from "react";
+import { ArbiscanTxn, getTxns } from "@/lib/arbiscan";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Monitor() {
+  const [transactions, setTransactions] = useState<ArbiscanTxn[]>([]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await getTxns({
+          address: "0x375c11fd30fdc95e10aad66bdce590e1bccc6afa",
+          type: "txlist",
+        });
+
+        setTransactions(res.result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getData();
+  }, []);
+
   return (
     <>
       <Head>
@@ -46,7 +67,7 @@ export default function Monitor() {
                       Reports
                     </TabsTrigger>
                     <TabsTrigger value="notifications" disabled>
-                      Notifications
+                      Alerts
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="overview" className="space-y-4">
@@ -54,7 +75,7 @@ export default function Monitor() {
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">
-                            Total Revenue
+                            Total Txn Amount
                           </CardTitle>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -70,16 +91,16 @@ export default function Monitor() {
                           </svg>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">$45,231.89</div>
+                          <div className="text-2xl font-bold">$4322</div>
                           <p className="text-xs text-muted-foreground">
-                            +20.1% from last month
+                            +18.5% from last month
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">
-                            Subscriptions
+                            Total Txn Count
                           </CardTitle>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -97,16 +118,16 @@ export default function Monitor() {
                           </svg>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">+2350</div>
+                          <div className="text-2xl font-bold">54</div>
                           <p className="text-xs text-muted-foreground">
-                            +180.1% from last month
+                            +12% from last month
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">
-                            Sales
+                            Contracts Deployed
                           </CardTitle>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -123,16 +144,16 @@ export default function Monitor() {
                           </svg>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">+12,234</div>
+                          <div className="text-2xl font-bold">8</div>
                           <p className="text-xs text-muted-foreground">
-                            +19% from last month
+                            +20% from last month
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">
-                            Active Now
+                            Pending Txns
                           </CardTitle>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -148,9 +169,9 @@ export default function Monitor() {
                           </svg>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-2xl font-bold">+573</div>
+                          <div className="text-2xl font-bold">NA</div>
                           <p className="text-xs text-muted-foreground">
-                            +201 since last hour
+                            0 presently
                           </p>
                         </CardContent>
                       </Card>
@@ -166,13 +187,13 @@ export default function Monitor() {
                       </Card>
                       <Card className="col-span-3">
                         <CardHeader>
-                          <CardTitle>Recent Sales</CardTitle>
+                          <CardTitle>Recent Txns</CardTitle>
                           <CardDescription>
-                            You made 265 sales this month.
+                            You made 49 transactions this month.
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <RecentSales />
+                          <RecentSales transactions={transactions} />
                         </CardContent>
                       </Card>
                     </div>
