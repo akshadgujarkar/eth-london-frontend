@@ -25,31 +25,21 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { baseUrl } from "@/lib/utils";
+import {
+  ArbiscanTxn,
+  getBalances,
+  getTxnStatus,
+  getTxns,
+} from "@/lib/arbiscan";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Monitor() {
   const emailRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
-
-  const txns: {
-    hash: string;
-    value: string;
-    blockNumber: number;
-  }[] = [
-    {
-      hash: "0x1234",
-      value: "0.01",
-      blockNumber: 1234,
-    },
-    {
-      hash: "0x12345",
-      value: "0.01",
-      blockNumber: 1234,
-    },
-  ];
+  const [transactions, setTransactions] = useState<ArbiscanTxn[]>([]);
 
   async function onClick() {
     const email = emailRef.current?.value;
@@ -76,6 +66,35 @@ export default function Monitor() {
       console.error(error);
     }
   }
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await getTxns({
+          address: "0xF27552275B91e436Af383266262a37fCEf017B19",
+          type: "txlist",
+        });
+
+        setTransactions(res.result);
+
+        // const _ = await getBalances([
+        //   "0xF27552275B91e436Af383266262a37fCEf017B19",
+        //   "0x2836eC28C32E232280F984d3980BA4e05d6BF68f",
+        //   "0x2e1d90501C3173367ecC6a409Fb1b588Bf3C16A5",
+        // ]);
+
+        // const _ = await getTxnStatus({
+        //   hash: "0xbd3856d4dac7ba6c46382f8369b5b5abf9fbdd7f3168d752a5df6ca51bc72625",
+        //   type: "tx",
+        // });
+        // console.log(_);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getData();
+  }, []);
 
   return (
     <>
@@ -108,9 +127,12 @@ export default function Monitor() {
               </TableHeader>
 
               <TableBody>
-                {txns.map(({ hash, blockNumber, value }) => (
+                {transactions.map(({ hash, blockNumber, value }) => (
                   <TableRow key={hash}>
-                    <TableCell className="font-medium">{hash}</TableCell>
+                    <TableCell className="font-medium">{`${hash.slice(
+                      0,
+                      15
+                    )}...`}</TableCell>
                     <TableCell>{blockNumber}</TableCell>
                     <TableCell>{value}</TableCell>
                     <TableCell className="text-right">
