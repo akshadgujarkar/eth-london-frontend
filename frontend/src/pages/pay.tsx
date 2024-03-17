@@ -66,6 +66,8 @@ export default function ForceInclusion() {
       });
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
 
     // setTimeout(() => {
