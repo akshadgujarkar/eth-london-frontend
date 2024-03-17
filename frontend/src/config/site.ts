@@ -2,11 +2,11 @@ import { SiteConfig } from "~/types";
 
 export const siteConfig: SiteConfig = {
   name: "Monitrum",
-  description: "Force Inclusion tool",
+  description: "Making developers' lives easier on Arbitrum",
   url: "",
   ogImage: "",
   links: {
     twitter: "",
-    github: "",
+    github: "https://github.com/prathamesh-mutkure/eth-london-frontend",
   },
 };

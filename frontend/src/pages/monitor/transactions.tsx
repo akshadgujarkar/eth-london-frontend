@@ -43,6 +43,7 @@ export default function Monitor() {
   const [activeTxn, setActiveTxn] = useState(
     "0xb840b43d46990a4eebc7b46d5df7b1fa578e4dab3a99601e9759bce7537b811e"
   );
+  const [isDataLoading, setIsDataLoading] = useState(false);
 
   async function onClick() {
     const email = emailRef.current?.value;
@@ -74,12 +75,13 @@ export default function Monitor() {
   useEffect(() => {
     async function getData() {
       try {
+        setIsDataLoading(true);
         const res = await getTxns({
           address: "0x375c11fd30fdc95e10aad66bdce590e1bccc6afa",
           type: "txlist",
         });
 
-        setTransactions(res.result);
+        setTransactions(res.result ?? []);
 
         // const _ = await getBalances([
         //   "0x375C11FD30FdC95e10aAD66bdcE590E1bccc6aFA",
@@ -95,6 +97,8 @@ export default function Monitor() {
         // console.log(__);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsDataLoading(false);
       }
     }
 
@@ -106,7 +110,7 @@ export default function Monitor() {
       <Head>
         <title>Your Transactions</title>
       </Head>
-      <DashboardLayout loading={false}>
+      <DashboardLayout loading={isDataLoading}>
         <Dialog>
           <DashboardShell>
             <DashboardHeader

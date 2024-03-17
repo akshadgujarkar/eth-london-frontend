@@ -29,7 +29,7 @@ export default function Monitor() {
           type: "txlist",
         });
 
-        setTransactions(res.result);
+        setTransactions(res.result ?? []);
       } catch (error) {
         console.error(error);
       }
