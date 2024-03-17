@@ -21,11 +21,11 @@ export default function Home() {
               // "bg-[#8594B3] bg-[url('/images/bg.png')]"
             )}
           >
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-5xl font-bold">
               Making Developer Experience <br /> Easy on{" "}
-              <span className="text-blue-400 text-5xl">Arbitrum</span>
+              <span className="text-blue-400 text-6xl">Arbitrum</span>
               <br />
-              <span className="text-4xl">#</span>TeamQuasar
+              <span className="4xl">#</span>TeamQuasar
             </h1>
           </div>
         </section>

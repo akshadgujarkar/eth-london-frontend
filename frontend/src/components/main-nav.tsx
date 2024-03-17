@@ -18,7 +18,7 @@ export function MainNav({ items, children }: MainNavProps) {
   const router = useRouter();
 
   return (
-    <div className="light flex gap-6 md:gap-10">
+    <div className="light flex gap-6 md:gap-10 container">
       <Link
         href="/"
         className={cn(

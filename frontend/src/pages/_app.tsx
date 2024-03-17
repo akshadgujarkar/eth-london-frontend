@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
           walletConnect(),
         ]}
       >
-        <Component {...pageProps} />
+        <Component {...pageProps} suppressHydrationWarning />
         <Toaster />
       </ThirdwebProvider>
     </ThemeProvider>
