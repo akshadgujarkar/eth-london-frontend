@@ -71,23 +71,24 @@ export default function Monitor() {
     async function getData() {
       try {
         const res = await getTxns({
-          address: "0xF27552275B91e436Af383266262a37fCEf017B19",
+          address: "0x375c11fd30fdc95e10aad66bdce590e1bccc6afa",
           type: "txlist",
         });
 
         setTransactions(res.result);
 
         // const _ = await getBalances([
+        //   "0x375C11FD30FdC95e10aAD66bdcE590E1bccc6aFA",
         //   "0xF27552275B91e436Af383266262a37fCEf017B19",
         //   "0x2836eC28C32E232280F984d3980BA4e05d6BF68f",
         //   "0x2e1d90501C3173367ecC6a409Fb1b588Bf3C16A5",
         // ]);
 
-        // const _ = await getTxnStatus({
+        // const __ = await getTxnStatus({
         //   hash: "0xbd3856d4dac7ba6c46382f8369b5b5abf9fbdd7f3168d752a5df6ca51bc72625",
         //   type: "tx",
         // });
-        // console.log(_);
+        // console.log(__);
       } catch (error) {
         console.error(error);
       }

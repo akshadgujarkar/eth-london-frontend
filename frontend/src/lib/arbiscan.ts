@@ -24,10 +24,7 @@ export type ArbiscanTxn = {
 };
 
 export const arbiscanUrl = `https://api-sepolia.arbiscan.io/api?`;
-
-export const constructArbiscanUrl = ({}: {}) => {
-  return `${arbiscanUrl}`;
-};
+export const etherscanUrl = `https://api-sepolia.etherscan.io/api?`;
 
 export const getTxns = async ({
   address,
@@ -36,7 +33,7 @@ export const getTxns = async ({
   address: string;
   type: "txlistinternal" | "txlist";
 }) => {
-  const url = `${arbiscanUrl}module=account&action=${type}&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${process.env.ARBISCAN_API_KEY}`;
+  const url = `${etherscanUrl}module=account&action=${type}&address=${address}&startblock=0&endblock=99999999&page=1&offset=10&sort=desc&apikey=${process.env.ETHERSCAN_API_KEY}`;
 
   const res = await axios.get(url);
   const data = await res.data;
@@ -49,9 +46,9 @@ export const getTxns = async ({
 };
 
 export const getBalances = async (addresses: string[]) => {
-  const url = `${arbiscanUrl}module=account&action=balancemulti&address=${addresses.join(
+  const url = `${etherscanUrl}module=account&action=balancemulti&address=${addresses.join(
     ","
-  )}&apikey=${process.env.ARBISCAN_API_KEY}`;
+  )}&apikey=${process.env.ETHERSCAN_API_KEY}`;
 
   const res = await axios.get(url);
   const data = await res.data;
@@ -73,9 +70,9 @@ export const getTxnStatus = async ({
   hash: string;
   type: "contract" | "tx";
 }) => {
-  const url = `${arbiscanUrl}module=transaction&action=${
+  const url = `${etherscanUrl}module=transaction&action=${
     type === "contract" ? "getstatus" : "gettxreceiptstatus"
-  }&txhash=${hash}&apikey=${process.env.ARBISCAN_API_KEY}`;
+  }&txhash=${hash}&apikey=${process.env.ETHERSCAN_API_KEY}`;
 
   const res = await axios.get(url);
   const data = await res.data;
