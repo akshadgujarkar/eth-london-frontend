@@ -89,7 +89,7 @@ export default function Monitor() {
     }
   }
   useEffect(() => {
-    const client = new W3CWebSocket("ws://127.0.0.1:9642");
+    const client = new W3CWebSocket("wss://sepolia-rollup.arbitrum.io/feed");
 
     client.onopen = () => {
       console.log("WebSocket connected");
@@ -118,14 +118,14 @@ export default function Monitor() {
   return (
     <>
       <Head>
-        <title>Your Transactions</title>
+        <title>Monitor Sequencer</title>
       </Head>
       <DashboardLayout loading={false}>
         <Dialog>
           <DashboardShell>
             <DashboardHeader
-              heading="Your Transactions"
-              text="View your transactions and set custom email alerts"
+              heading="Monitor Sequencer"
+              text="View the workings of the sequencer"
             >
               <Button variant="outline">
                 <Icons.refresh className="mr-2 h-4 w-4" />
