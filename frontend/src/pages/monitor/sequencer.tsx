@@ -35,11 +35,9 @@ type EncryptedMessages = {
   messages: EncryptedMessage[];
   signature: null; // Assuming signature is always null in your case
 };
-
 type EncryptedMessage = {
   sequenceNumber: number;
   message: {
-    // Message can be complete or a partial message without header
     message?: {
       // Make message optional
       header?: {
@@ -54,7 +52,7 @@ type EncryptedMessage = {
       l2Msg: string;
       batchGasCost?: number;
     };
-    delayedMessagesRead: number;
+    delayedMessagesRead: number; // Add delayedMessagesRead property
   };
   signature: null; // Assuming signature is always null in your case
 };
@@ -89,7 +87,7 @@ export default function Monitor() {
     }
   }
   useEffect(() => {
-    const client = new W3CWebSocket("wss://sepolia-rollup.arbitrum.io/feed");
+    const client = new W3CWebSocket("ws://127.0.0.1:9642");
 
     client.onopen = () => {
       console.log("WebSocket connected");
@@ -139,7 +137,7 @@ export default function Monitor() {
                   <TableHead>Block Number</TableHead>
                   <TableHead>sender</TableHead>
                   <TableHead>timestamp</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="text-right">Delayed Message</TableHead>
                 </TableRow>
               </TableHeader>
               {seqData && (
@@ -167,7 +165,7 @@ export default function Monitor() {
                             : "-"}
                         </TableCell>
                         <TableCell className="text-right">
-                          {/* Add any actions you want here, like buttons or links */}
+                          {encodedMessageList.message.delayedMessagesRead}{" "}
                         </TableCell>
                       </TableRow>
                     );
