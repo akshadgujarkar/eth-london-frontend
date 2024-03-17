@@ -23,6 +23,11 @@ export const monitorConfig: DashboardConfig = {
       icon: "users",
     },
     {
+      title: "Sequencer",
+      href: "/monitor/sequencer",
+      icon: "users",
+    },
+    {
       title: "Alerts",
       href: "/monitor/alerts",
       icon: "users",
