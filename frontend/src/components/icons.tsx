@@ -40,12 +40,14 @@ import {
   FileImage,
   ArrowLeft,
   type XIcon as LucideIcon,
+  RefreshCcw,
   CalendarIcon,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
 
 export const Icons = {
+  refresh: RefreshCcw,
   logo: Command,
   close: X,
   spinner: Loader2,
