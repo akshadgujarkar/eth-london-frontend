@@ -14,7 +14,27 @@ const { BigNumber }= require('@ethersproject/bignumber')
 
 const { InboxTools }= require('@arbitrum/sdk')
 const {SequencerInbox__factory}= require("@arbitrum/sdk/dist/lib/abi/factories/SequencerInbox__factory")
+const { Inbox__factory } = require('@arbitrum/sdk/dist/lib/abi/factories/Inbox__factory');
 
+
+
+const submitL2Tx = async (
+    tx,
+    l2Network,
+    l1Signer
+  ) => {
+    const inbox = Inbox__factory.connect(l2Network.ethBridge.inbox, l1Signer)
+  
+    return await inbox.sendUnsignedTransaction(
+      tx.gasLimit,
+      tx.gasPriceBid,
+      tx.nonce,
+      tx.to,
+      tx.value || BigNumber.from(21000000000),
+      tx.data || '0x'
+    )
+  }
+  
 
 const setup = async () => {
 
@@ -63,39 +83,27 @@ async function ForceIncl(req) {
 
     const {data,to,value,gasLimitPercentage} = req.body;
 
-    const { l1Signer, l2Network, sequencerInbox, bridge,l2Wallet } = await setup()
+    
+  const { l1Signer, l2Network, sequencerInbox, bridge } = await setup() 
 
-    console.log(await l1Signer.getAddress())
+  const inboxTools = new InboxTools(l1Signer, l2Network)
+  console.log("Initiating Transaction")
 
-    const inboxTools = new InboxTools(l1Signer, l2Network)
-
-    const transactionl2Request = {
-        data,
-        to,
-        value: BigNumber.from(value),
-        gasLimit: BigNumber.from(gasLimitPercentage)
-    }
-
-
-    const l2SignedTx = await inboxTools.signL2Tx(transactionl2Request, l2Wallet)
-    const l2Txhash = utils.parseTransaction(l2SignedTx).hash
-
-    const l1Tx = await inboxTools.sendL2SignedTx(l2SignedTx)
-    const inboxRec = await l1Tx.wait()
-
-    //   const forceInclusionTx = await inboxTools.forceInclude()
-
-    console.log(`Greeting txn confirmed on L1! 🙌 ${inboxRec.transactionHash}`)
-    console.log(
-        `Now we need to wait tx: ${l2Txhash} to be included on l2 (may take 15 minutes) ....... `
-    )
-
-    const l2TxReceipt = await l2Provider.waitForTransaction(l2Txhash)
-
-    const status = l2TxReceipt.status;
-
-    console.log(status)
-
+  const l2Tx = await submitL2Tx(
+    {
+      to: await l1Signer.getAddress(),
+      value: BigNumber.from(0),
+      gasLimit: BigNumber.from(100000),
+      gasPriceBid: BigNumber.from(21000000000),
+      nonce: 0,
+    },
+    l2Network,
+    l1Signer
+  )
+  await l2Tx.wait()
+  // const forceInclusionTx = await inboxTools.forceInclude()
+  // await forceInclusionTx!.wait()
+  console.log("Transaction successfully settled")
 }
 router.post('/', async function (req, res, next) {
 
