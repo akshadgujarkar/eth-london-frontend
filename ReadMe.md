@@ -2,6 +2,9 @@
 
 Monitrum is user and developer friendly platform that provides trustless and permissionless transaction monitoring solution along with support for Forced Inclusion on Arbitrum.
 
+[![Submission Video](https://img.youtube.com/vi/0buWRoxkuj8/0.jpg)](https://www.youtube.com/watch?v=0buWRoxkuj8)
+
+
 <img width="1792" alt="Screenshot 2024-03-17 at 10 57 47" src="https://github.com/prathamesh-mutkure/eth-london-frontend/assets/28570857/0723d68d-a2a9-4666-b894-6ddcffd9c97e">
 
 
