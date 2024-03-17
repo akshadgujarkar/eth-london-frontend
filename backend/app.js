@@ -8,7 +8,9 @@ var logger = require("morgan");
 var cors = require("cors");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var depositRouter = require("./routes/deposit");
+var withDrawtRouter = require("./routes/withdraw");
+var forceINCLRouter = require("./routes/forceIncl");
 
 var app = express();
 app.use(cors());
@@ -24,7 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/deposit", depositRouter);
+app.use("/withdraw", withDrawtRouter);
+app.use("/force-inclusion", forceINCLRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
