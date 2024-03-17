@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 
 import { useConnect, useAddress, defaultWallets } from "@thirdweb-dev/react";
+import Link from "next/link";
 
 const MainLayout: React.FC<{
   children: React.ReactNode;
@@ -52,6 +53,12 @@ const MainLayout: React.FC<{
           <MainNav items={marketingConfig.mainNav} />
 
           <nav>
+            <Link href="/pay">
+              <Button variant="secondary" className="mr-4">
+                Pay
+              </Button>
+            </Link>
+
             <Button onClick={handleConnect} className="max-w-32">
               {address ? `${address.slice(0, 10)}...` : "Connect Wallet"}
             </Button>

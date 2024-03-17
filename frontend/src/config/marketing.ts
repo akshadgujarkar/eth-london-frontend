@@ -6,10 +6,10 @@ export const marketingConfig: MarketingConfig = {
       title: "Home",
       href: "/",
     },
-    {
-      title: "Force Inclusion",
-      href: "/force-inclusion",
-    },
+    // {
+    //   title: "Force Inclusion",
+    //   href: "/force-inclusion",
+    // },
     {
       title: "Monitor",
       href: "/monitor",
