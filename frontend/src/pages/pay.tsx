@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,8 @@ export default function ForceInclusion() {
     destination: "",
   });
 
+  const { toast } = useToast();
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setData({ ...data, [e.target.name]: e.target.value });
   }
@@ -36,6 +39,11 @@ export default function ForceInclusion() {
     console.log(data);
 
     const gasAmount = (data.payableValue * data.gas) / 100;
+
+    toast({
+      title: "Processing your transaction",
+      variant: "default",
+    });
   }
 
   return (
@@ -47,11 +55,11 @@ export default function ForceInclusion() {
         <section className="p-4">
           <div
             className={cn(
-              "h-[75vh] rounded-lg p-8 flex flex-col items-center justify-center"
-              //   "bg-[#8594B3] bg-[url('/images/bg.png')]"
+              "h-[75vh] rounded-lg p-8 flex flex-col items-center justify-center",
+              "bg-blue-400 bg-[url('/images/bg.png')]"
             )}
           >
-            <div className="w-[500px] flex flex-col gap-6 border border-gray-200 p-8 rounded-lg">
+            <div className="w-[500px] flex flex-col gap-6 border border-gray-200 p-8 rounded-lg bg-background">
               <div>
                 <Label htmlFor="method">Method</Label>
 
@@ -65,19 +73,24 @@ export default function ForceInclusion() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="sendTxToL1">sendTxToL1</SelectItem>
-                      <SelectItem value="withdrawEth">withdrawEth</SelectItem>
+                      <SelectItem value="sendTxToL1">
+                        Force Inclusion
+                      </SelectItem>
+                      <SelectItem value="withdrawEth">
+                        Withdraw Funds
+                      </SelectItem>
+                      <SelectItem value="deposit">Deposit Funds</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="grid w-full items-center gap-1.5">
-                <Label htmlFor="email">Payable Value</Label>
+                <Label htmlFor="email">Value</Label>
                 <Input
                   type="number"
                   id="email"
-                  placeholder="Payable Value"
+                  placeholder="Value in ETH"
                   className="w-full"
                   onChange={(e) => {
                     setData({
@@ -89,7 +102,7 @@ export default function ForceInclusion() {
               </div>
 
               <div className="py-0">
-                <Label htmlFor="gas">Add a % Gas Buffer</Label>
+                <Label htmlFor="gas">Max Gas Fees (0-100%)</Label>
                 <div className="h-2.5"></div>
                 <Slider
                   defaultValue={[20]}
@@ -103,11 +116,11 @@ export default function ForceInclusion() {
               </div>
 
               <div className="grid w-full items-center gap-1.5">
-                <Label htmlFor="destination">Destination (address)</Label>
+                <Label htmlFor="destination">To (address)</Label>
                 <Input
                   type="destination"
                   id="destination"
-                  placeholder="Destination (address)"
+                  placeholder="Wallet address of the recipient"
                   onChange={(e) => handleChange(e)}
                 />
               </div>

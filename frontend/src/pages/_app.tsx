@@ -7,6 +7,7 @@ import {
   coinbaseWallet,
   walletConnect,
 } from "@thirdweb-dev/react";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -23,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
         ]}
       >
         <Component {...pageProps} />
+        <Toaster />
       </ThirdwebProvider>
     </ThemeProvider>
   );
