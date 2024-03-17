@@ -13,7 +13,6 @@ export const marketingConfig: MarketingConfig = {
     {
       title: "GitHub",
       href: "https://github.com/prathamesh-mutkure/eth-london-frontend",
-      disabled: true,
     },
     {
       title: "Documentation",
