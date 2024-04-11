@@ -30,7 +30,7 @@ The Next.js app is powered by a Node.js and Express.js backend which powers all 
 
 The automated scripts have been written with the help of Arbitrum SDK and TypeScript, all the above services are integrated with multiple wallets like MetaMask using libraries like ThirdWeb and Ethers.
 
-We have used docker to containerize the scripts and other tools for developers to quickly get started and customise the tools based on their needs.
+We have used docker to containerize the scripts and other tools for developers to quickly get started and customise the tools based on their needs this.
 
 All the live alerts, feeds and communication is powered Sockets and RPC calls between different services, frontend and backend which are constantly running in the background monitoring the network and running CRON jobs for alerts.
 
